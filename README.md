@@ -3,6 +3,7 @@ Changes relative to the original repository:
 
 [c++ bigint]
 * Optimized `==` and `!=` operators.
+* Added conversion to `double`.
 
 ---
 

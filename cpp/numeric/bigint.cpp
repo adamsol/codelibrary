@@ -255,6 +255,13 @@ struct bigint {
         return res * sign;
     }
 
+    double doubleValue() const {
+        double res = 0.0;
+        for (int i = (int)z.size() - 1; i >= 0; i--)
+            res = res * base + z[i];
+        return res * sign;
+    }
+
     friend bigint gcd(const bigint &a, const bigint &b) { return b.isZero() ? a : gcd(b, a % b); }
 
     friend bigint lcm(const bigint &a, const bigint &b) { return a / gcd(a, b) * b; }
