@@ -6,6 +6,7 @@ Changes relative to the original repository:
 * Added conversion to `double`.
 * Implemented conversion to `std::string` without streams.
 * Moved the class to a separate header file.
+* Cleaned up the header files: removed `#include <bits/stdc++.h>` and `using namespace std`.
 
 ---
 

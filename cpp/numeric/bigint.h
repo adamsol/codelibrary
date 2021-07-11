@@ -1,8 +1,11 @@
-#include <bits/stdc++.h>
+
+#include <algorithm>
+#include <istream>
+#include <ostream>
+#include <string>
+#include <vector>
 
 #include "fft.h"
-
-using namespace std;
 
 constexpr int digits(int base) noexcept {
     return base <= 1 ? 0 : 1 + digits(base / 10);
@@ -16,7 +19,7 @@ constexpr int fft_base_digits = digits(fft_base);
 
 struct bigint {
     // value == 0 is represented by empty z
-    vector<int> z;  // digits
+    std::vector<int> z;  // digits
 
     // sign == 1 <==> value >= 0
     // sign == -1 <==> value < 0
@@ -33,7 +36,7 @@ struct bigint {
         return *this;
     }
 
-    bigint(const string &s) { read(s); }
+    bigint(const std::string &s) { read(s); }
 
     bigint &operator+=(const bigint &other) {
         if (sign == other.sign) {
@@ -97,7 +100,7 @@ struct bigint {
 
     bigint operator*(int v) const { return bigint(*this) *= v; }
 
-    friend pair<bigint, bigint> divmod(const bigint &a1, const bigint &b1) {
+    friend std::pair<bigint, bigint> divmod(const bigint &a1, const bigint &b1) {
         int norm = base / (b1.z.back() + 1);
         bigint a = a1.abs() * norm;
         bigint b = b1.abs() * norm;
@@ -225,9 +228,7 @@ struct bigint {
 
     bool operator>=(const bigint &v) const { return !(*this < v); }
 
-    bool operator==(const bigint &v) const {
-        return sign == v.sign && z == v.z;
-    }
+    bool operator==(const bigint &v) const { return sign == v.sign && z == v.z; }
 
     bool operator!=(const bigint &v) const { return !(*this == v); }
 
@@ -266,7 +267,7 @@ struct bigint {
 
     friend bigint lcm(const bigint &a, const bigint &b) { return a / gcd(a, b) * b; }
 
-    void read(const string &s) {
+    void read(const std::string &s) {
         sign = 1;
         z.clear();
         int pos = 0;
@@ -277,26 +278,26 @@ struct bigint {
         }
         for (int i = (int)s.size() - 1; i >= pos; i -= base_digits) {
             int x = 0;
-            for (int j = max(pos, i - base_digits + 1); j <= i; j++)
+            for (int j = std::max(pos, i - base_digits + 1); j <= i; j++)
                 x = x * 10 + s[j] - '0';
             z.push_back(x);
         }
         trim();
     }
 
-    friend istream &operator>>(istream &stream, bigint &v) {
-        string s;
+    friend std::istream &operator>>(std::istream &stream, bigint &v) {
+        std::string s;
         stream >> s;
         v.read(s);
         return stream;
     }
 
-    string to_string() const {
+    std::string to_string() const {
         if (z.empty()) {
             return "0";
         } else {
-            string s;
-            for (int digit: z) {
+            std::string s;
+            for (int digit : z) {
                 for (int i = 0; i < base_digits; ++i) {
                     s.push_back('0' + digit % 10);
                     digit /= 10;
@@ -308,21 +309,19 @@ struct bigint {
             if (sign < 0) {
                 s.push_back('-');
             }
-            reverse(s.begin(), s.end());
+            std::reverse(s.begin(), s.end());
             return s;
         }
     }
 
-    friend ostream &operator<<(ostream &stream, const bigint &v) {
-        return stream << v.to_string();
-    }
+    friend std::ostream &operator<<(std::ostream &stream, const bigint &v) { return stream << v.to_string(); }
 
-    static vector<int> convert_base(const vector<int> &a, int old_digits, int new_digits) {
-        vector<long long> p(max(old_digits, new_digits) + 1);
+    static std::vector<int> convert_base(const std::vector<int> &a, int old_digits, int new_digits) {
+        std::vector<long long> p(std::max(old_digits, new_digits) + 1);
         p[0] = 1;
         for (int i = 1; i < p.size(); i++)
             p[i] = p[i - 1] * 10;
-        vector<int> res;
+        std::vector<int> res;
         long long cur = 0;
         int cur_digits = 0;
         for (int v : a) {
@@ -341,7 +340,7 @@ struct bigint {
     }
 
     bigint operator*(const bigint &v) const {
-        if (min(z.size(), v.z.size()) < 150)
+        if (std::min(z.size(), v.z.size()) < 150)
             return mul_simple(v);
         bigint res;
         res.sign = sign * v.sign;
