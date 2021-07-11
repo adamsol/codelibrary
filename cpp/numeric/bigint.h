@@ -291,13 +291,30 @@ struct bigint {
         return stream;
     }
 
+    string to_string() const {
+        if (z.empty()) {
+            return "0";
+        } else {
+            string s;
+            for (int digit: z) {
+                for (int i = 0; i < base_digits; ++i) {
+                    s.push_back('0' + digit % 10);
+                    digit /= 10;
+                }
+            }
+            while (s.back() == '0') {
+                s.pop_back();
+            }
+            if (sign < 0) {
+                s.push_back('-');
+            }
+            reverse(s.begin(), s.end());
+            return s;
+        }
+    }
+
     friend ostream &operator<<(ostream &stream, const bigint &v) {
-        if (v.sign == -1)
-            stream << '-';
-        stream << (v.z.empty() ? 0 : v.z.back());
-        for (int i = (int)v.z.size() - 2; i >= 0; --i)
-            stream << setw(base_digits) << setfill('0') << v.z[i];
-        return stream;
+        return stream << v.to_string();
     }
 
     static vector<int> convert_base(const vector<int> &a, int old_digits, int new_digits) {

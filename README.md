@@ -4,6 +4,7 @@ Changes relative to the original repository:
 [c++ bigint]
 * Optimized `==` and `!=` operators.
 * Added conversion to `double`.
+* Implemented conversion to `std::string` without streams.
 * Moved the class to a separate header file.
 
 ---
