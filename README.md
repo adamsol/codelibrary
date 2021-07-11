@@ -1,3 +1,11 @@
+
+Changes relative to the original repository:
+
+[c++ bigint]
+* Optimized `==` and `!=` operators.
+
+---
+
 [![GitHub stars](https://img.shields.io/github/stars/indy256/codelibrary.svg?style=flat&label=star)](https://github.com/indy256/codelibrary/)
 [![Java CI](https://github.com/indy256/codelibrary/workflows/Java%20CI/badge.svg)](https://github.com/indy256/codelibrary/actions?query=workflow%3A%22Java+CI%22)
 [![C++ CI](https://github.com/indy256/codelibrary/workflows/C++%20CI/badge.svg)](https://github.com/indy256/codelibrary/actions?query=workflow%3A%22C%2B%2B+CI%22)
